@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Reservas</title>
+<link rel="stylesheet" href="assets/css/global.css" />
+</head>
+<body>
+
+<app-navbar></app-navbar>
+
+<section class="section">
+<h1>Buscar disponibilidad</h1>
+
+<form id="searchForm">
+<input type="date" id="checkIn" required />
+<input type="date" id="checkOut" required />
+<input type="number" id="guests" placeholder="Personas" required />
+<button>Buscar</button>
+</form>
+
+<div id="availableRooms" class="grid"></div>
+</section>
+
+<app-footer></app-footer>
+<script type="module" src="assets/js/reservations.js"></script>
+</body>
+</html>
