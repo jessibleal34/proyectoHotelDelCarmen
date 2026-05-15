@@ -1,16 +1,21 @@
-
 export function generateId() {
   return crypto.randomUUID();
 }
 
-export function calculateNights(inDate, outDate) {
-  return Math.max(1, (new Date(outDate) - new Date(inDate)) / 86400000);
+export function calculateNights(checkIn, checkOut) {
+
+  const start = new Date(checkIn);
+  const end = new Date(checkOut);
+
+  const difference = end - start;
+
+  return difference / (1000 * 60 * 60 * 24);
 }
 
 export function formatCurrency(value) {
+
   return new Intl.NumberFormat('es-CO', {
     style: 'currency',
     currency: 'COP'
   }).format(value);
 }
-
