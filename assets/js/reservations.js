@@ -10,8 +10,15 @@ import { requireAuth } from './guards.js';
 
 requireAuth();
 
-const searchForm = document.getElementById('searchForm');
-const availableRooms = document.getElementById('availableRooms');
+const searchForm =
+  document.getElementById('searchForm');
+
+const availableRooms =
+  document.getElementById('availableRooms');
+
+/* =========================
+   BUSCAR DISPONIBILIDAD
+========================= */
 
 if (searchForm) {
 
@@ -19,8 +26,11 @@ if (searchForm) {
 
     event.preventDefault();
 
-    const rooms = Storage.get('rooms');
-    const reservations = Storage.get('reservations');
+    const rooms =
+      Storage.get('rooms');
+
+    const reservations =
+      Storage.get('reservations');
 
     const checkIn =
       document.getElementById('checkIn').value;
@@ -29,20 +39,44 @@ if (searchForm) {
       document.getElementById('checkOut').value;
 
     const guests =
-      Number(document.getElementById('guests').value);
+      Number(
+        document.getElementById('guests').value
+      );
 
+    // VALIDACIONES
+    if (!checkIn || !checkOut || !guests) {
+
+      alert('Completa todos los campos');
+
+      return;
+    }
+
+    if (checkIn >= checkOut) {
+
+      alert(
+        'La fecha de salida debe ser mayor'
+      );
+
+      return;
+    }
+
+    // FILTRAR HABITACIONES
     const available = rooms.filter(room => {
 
-      const overlaps = reservations.some(reservation => {
+      const overlaps =
+        reservations.some(reservation => {
 
-        return (
-          reservation.roomId === room.id &&
-          checkIn < reservation.checkOut &&
-          checkOut > reservation.checkIn
-        );
-      });
+          return (
+            reservation.roomId === room.id &&
+            checkIn < reservation.checkOut &&
+            checkOut > reservation.checkIn
+          );
+        });
 
-      return room.capacity >= guests && !overlaps;
+      return (
+        room.capacity >= guests &&
+        !overlaps
+      );
     });
 
     renderRooms(
@@ -53,6 +87,10 @@ if (searchForm) {
     );
   });
 }
+
+/* =========================
+   RENDER HABITACIONES
+========================= */
 
 function renderRooms(
   rooms,
@@ -65,46 +103,85 @@ function renderRooms(
 
   if (rooms.length === 0) {
 
-    availableRooms.innerHTML =
-      '<p>No hay habitaciones disponibles.</p>';
+    availableRooms.innerHTML = `
+
+      <div class="no-rooms">
+
+        <h3>
+          No hay habitaciones disponibles
+        </h3>
+
+      </div>
+    `;
 
     return;
   }
 
   rooms.forEach(room => {
 
-    const nights =
-      calculateNights(checkIn, checkOut);
+    const totalNights =
+      calculateNights(
+        checkIn,
+        checkOut
+      );
 
-    const total = nights * room.price;
+    const total =
+      totalNights * room.price;
 
-    const card = document.createElement('div');
+    const card =
+      document.createElement('div');
 
     card.classList.add('card');
 
     card.innerHTML = `
+
+      <div class="room-image">
+
+        <img
+          src="${room.image}"
+          alt="${room.name}"
+        >
+
+      </div>
+
       <div class="card-content">
 
         <h3>${room.name}</h3>
 
-        <p><strong>Camas:</strong> ${room.beds}</p>
+        <p>
+          🛏 <strong>Camas:</strong>
+          ${room.beds}
+        </p>
 
-        <p><strong>Capacidad:</strong> ${room.capacity}</p>
+        <p>
+          👥 <strong>Capacidad:</strong>
+          ${room.capacity} personas
+        </p>
 
-        <p>${room.services}</p>
+        <p>
+          ✨ ${room.services}
+        </p>
 
-        <p><strong>Total:</strong>
-        ${formatCurrency(total)}</p>
+        <h4>
+          ${formatCurrency(total)}
+        </h4>
 
-        <button data-id="${room.id}">
+        <button
+          class="reserve-btn"
+          data-id="${room.id}"
+        >
           Reservar
         </button>
 
       </div>
     `;
 
-    card.querySelector('button')
-      .addEventListener('click', () => {
+    const reserveButton =
+      card.querySelector('.reserve-btn');
+
+    reserveButton.addEventListener(
+      'click',
+      () => {
 
         reserveRoom(
           room.id,
@@ -113,11 +190,16 @@ function renderRooms(
           guests,
           total
         );
-      });
+      }
+    );
 
     availableRooms.appendChild(card);
   });
 }
+
+/* =========================
+   RESERVAR
+========================= */
 
 function reserveRoom(
   roomId,
@@ -128,13 +210,16 @@ function reserveRoom(
 ) {
 
   const session =
-    JSON.parse(localStorage.getItem('session'));
+    JSON.parse(
+      localStorage.getItem('session')
+    );
 
   if (!session) {
 
     alert('Debes iniciar sesión');
 
-    window.location.href = 'login.html';
+    window.location.href =
+      'login.html';
 
     return;
   }
@@ -142,6 +227,7 @@ function reserveRoom(
   const reservations =
     Storage.get('reservations');
 
+  // VALIDAR DISPONIBILIDAD OTRA VEZ
   const stillAvailable =
     !reservations.some(reservation => {
 
@@ -154,11 +240,14 @@ function reserveRoom(
 
   if (!stillAvailable) {
 
-    alert('La habitación ya no está disponible');
+    alert(
+      'La habitación ya no está disponible'
+    );
 
     return;
   }
 
+  // CREAR RESERVA
   const reservation = {
 
     id: generateId(),
@@ -168,15 +257,25 @@ function reserveRoom(
     roomId,
 
     checkIn,
+
     checkOut,
 
     guests,
+
     total
   };
 
   reservations.push(reservation);
 
-  Storage.save('reservations', reservations);
+  Storage.save(
+    'reservations',
+    reservations
+  );
 
-  alert('Reserva realizada correctamente');
+  alert(
+    'Reserva realizada correctamente'
+  );
+
+  // LIMPIAR RESULTADOS
+  availableRooms.innerHTML = '';
 }

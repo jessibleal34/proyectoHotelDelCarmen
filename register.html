@@ -1,26 +1,98 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8" />
-<title>Registro</title>
-<link rel="stylesheet" href="assets/css/global.css" />
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Registro</title>
+
+  <link
+    rel="stylesheet"
+    href="assets/css/global.css"
+  >
+
 </head>
+
 <body>
 
 <section class="auth">
-<h1>Registro</h1>
 
-<form id="registerForm">
-<input type="text" id="fullname" placeholder="Nombre completo" required />
-<input type="text" id="id" placeholder="Identificación" required />
-<input type="text" id="nationality" placeholder="Nacionalidad" required />
-<input type="tel" id="phone" placeholder="Teléfono" required />
-<input type="email" id="email" placeholder="Email" required />
-<input type="password" id="password" placeholder="Contraseña" required />
-<button>Registrar</button>
-</form>
+  <div class="auth-container">
+
+    <h1>Registro</h1>
+
+    <form id="registerForm">
+
+      <input
+        type="text"
+        id="fullname"
+        placeholder="Nombre completo"
+        required
+      >
+
+      <input
+        type="text"
+        id="identification"
+        placeholder="Identificación"
+        required
+      >
+
+      <input
+        type="text"
+        id="nationality"
+        placeholder="Nacionalidad"
+        required
+      >
+
+      <input
+        type="tel"
+        id="phone"
+        placeholder="Teléfono"
+        required
+      >
+
+      <input
+        type="email"
+        id="email"
+        placeholder="Email"
+        required
+      >
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Contraseña"
+        required
+      >
+
+      <button type="submit">
+        Registrar
+      </button>
+
+    </form>
+
+    <div class="auth-link">
+
+      <a href="login.html">
+        ¿Ya tienes cuenta? Inicia sesión
+      </a>
+
+    </div>
+
+  </div>
+
 </section>
 
-<script type="module" src="assets/js/auth.js"></script>
+<script
+  type="module"
+  src="assets/js/auth.js"
+></script>
+
 </body>
 </html>

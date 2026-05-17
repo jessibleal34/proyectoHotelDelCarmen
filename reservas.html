@@ -1,28 +1,107 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8" />
-<title>Reservas</title>
-<link rel="stylesheet" href="assets/css/global.css" />
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    Reservas | Hotel El Rincón del Carmen
+  </title>
+
+  <link
+    rel="stylesheet"
+    href="assets/css/global.css"
+  >
+
 </head>
+
 <body>
 
-<app-navbar></app-navbar>
+  <!-- NAVBAR -->
+  <app-navbar></app-navbar>
 
-<section class="section">
-<h1>Buscar disponibilidad</h1>
+  <!-- RESERVAS -->
+  <section class="section">
 
-<form id="searchForm">
-<input type="date" id="checkIn" required />
-<input type="date" id="checkOut" required />
-<input type="number" id="guests" placeholder="Personas" required />
-<button>Buscar</button>
-</form>
+    <div class="section-title">
 
-<div id="availableRooms" class="grid"></div>
-</section>
+      <h2>
+        Buscar disponibilidad
+      </h2>
 
-<app-footer></app-footer>
-<script type="module" src="assets/js/reservations.js"></script>
+      <p>
+        Encuentra la habitación perfecta
+        para vivir una experiencia de lujo.
+      </p>
+
+    </div>
+
+    <!-- FORMULARIO -->
+    <form id="searchForm" class="reservation-form">
+
+      <input
+        type="date"
+        id="checkIn"
+        required
+      >
+
+      <input
+        type="date"
+        id="checkOut"
+        required
+      >
+
+      <input
+        type="number"
+        id="guests"
+        min="1"
+        placeholder="Número de personas"
+        required
+      >
+
+      <button type="submit">
+        Buscar
+      </button>
+
+    </form>
+
+    <!-- HABITACIONES -->
+    <div id="availableRooms">
+
+    </div>
+
+  </section>
+
+  <!-- FOOTER -->
+  <app-footer></app-footer>
+
+  <!-- COMPONENTS -->
+  <script
+    type="module"
+    src="assets/components/navbar.js"
+  ></script>
+
+  <script
+    type="module"
+    src="assets/components/footer.js"
+  ></script>
+
+  <!-- APP -->
+  <script
+    type="module"
+    src="assets/js/app.js"
+  ></script>
+
+  <script
+    type="module"
+    src="assets/js/reservations.js"
+  ></script>
+
 </body>
 </html>
